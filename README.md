@@ -150,6 +150,25 @@ If you use `{{ }}` to enclose something like this :
 
 It is called Expression in `tplser`. And Other Usages like using `get` keyword to forEach a list or use if/else are all `Expression`
 
+--- 
+
+此外 在求值表达式的时候 求值对象可以是对象：
+
+BTW, when evaluating an expression, object is allowed:
+
+``` html 
+{{ person.name }}
+```
+
+但是这样做是 `非法` 的：
+
+but you `can't` do that: 
+
+``` html
+{{ person . name }}
+```
+
+
 ## 表达式渲染 Render Evaluation
 
 把数据喂给表达式，`tplser` 就可以正确的对模版求值了。求值只有两种情况： 
