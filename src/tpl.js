@@ -21,7 +21,6 @@ tpl.fromStr = (template, config = {}) => {
 	return dataRaw => tpl.render(template, dataRaw); 
 }
 
-
 tpl.render = (template, dataRaw) => {
 	var statements = []; 
 
@@ -33,10 +32,7 @@ tpl.render = (template, dataRaw) => {
 		// return dataRaw[p1.trim()]; 
 	}); 
 	
-
 	var codeTokens = codeTokenGenerator(statements, template); 
-
-
 
 	// 解析 
 	codeTokens.forEach(e => {
@@ -48,11 +44,9 @@ tpl.render = (template, dataRaw) => {
 
 	// codeTokens.forEach(e => console.log(e))
 	
-
 	// var d = syntaxParser(codeTokens)
 	// d.forEach(e => console.log(e)); 
 	
-
 	// Eval Sytax Array 
 	return syntaxer(
 		syntaxParser(codeTokens),
@@ -60,12 +54,6 @@ tpl.render = (template, dataRaw) => {
 	); 
 }
 
-// For Browser
-if (window) {
-	window.tpl = tpl; 
-} else {
-	// For Node 
-	module.exports = tpl; 
-}
-
+// Exports 
+module.exports = tpl; 
 

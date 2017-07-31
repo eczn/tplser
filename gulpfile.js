@@ -12,7 +12,7 @@ var nTplHeader = `/*!
  */\n`; 
 
 gulp.task('build', function(){
-	return gulp.src('./src/tpl.js')
+	return gulp.src('./src/tpl-browser.js')
 		.pipe(browserify({
 			insertGlobals: true, 
 			debug: false
