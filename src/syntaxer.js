@@ -1,12 +1,22 @@
-// sytaxer.js
-function find(key, scopes){
+// sytaxer.js 
+function _find(key, scopes){
 	return scopes.reduce((target, cur) => {
 		if (key in cur) {
 			return cur[key]; 
 		} else {
 			return target; 
 		}
-	}, `[[ERROR ${key} NOT FOUND !!!]]`); 
+	}, null); 
+}
+
+function find(keyStr, scopes){
+	var keys = keyStr.split('.'); 
+	
+	var fir = _find(keys[0], scopes); 
+
+	return keys.slice(1).reduce((acc, key) => {
+		return acc[key]; 
+	}, fir); 
 }
 
 var getEval = (syntaxs, scopes) => {
