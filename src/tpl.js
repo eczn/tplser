@@ -11,7 +11,7 @@ var tplScopesStack = [];
 
 // 创建、释放全局作用域 
 tpl.push = data => tplScopesStack.push(data); 
-tpl.pop = () => tplScopesStack.pop(data); 
+tpl.pop = () => tplScopesStack.pop(); 
 
 tpl.fromFile = (tplWhere, config = {}) => {
 	var template = fs.readFileSync(tplWhere).toString(); 
