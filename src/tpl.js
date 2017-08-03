@@ -7,6 +7,12 @@ var syntaxParser = require('./syntaxParser');
 var syntaxer = require('./syntaxer'); 
 var codeTokenGenerator = require('./codeTokenGenerator'); 
 
+var tplScopesStack = []; 
+
+// 创建、释放全局作用域 
+tpl.push = data => tplScopesStack.push(data); 
+tpl.pop = () => tplScopesStack.pop(data); 
+
 tpl.fromFile = (tplWhere, config = {}) => {
 	var template = fs.readFileSync(tplWhere).toString(); 
 
@@ -50,7 +56,7 @@ tpl.render = (template, dataRaw) => {
 	// Eval Sytax Array 
 	return syntaxer(
 		syntaxParser(codeTokens),
-		[ dataRaw ]
+		tplScopesStack.concat([ dataRaw ])
 	); 
 }
 

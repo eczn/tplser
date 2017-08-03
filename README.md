@@ -1,4 +1,4 @@
-# tplser
+# tplser@0.0.9
 
 tplser 是一个模版引擎的实现 (使用双花括号风格的)
 
@@ -121,6 +121,19 @@ render({
 `fromFile` will read the file as `string`, and use it with `tpl.fromStr` to generate a render function. 
 
 `fromFile` 会以字符串的形式读取文件，然后喂进 fromStr 得到 render 函数
+
+
+## tpl.push(data)
+
+`create` a pre-scope when evaluating template. 
+
+在解释求值模版的时候 `创建` 一个前置作用域（对所有模版可见的）
+
+## tpl.pop(data) 
+
+`pop` a pre-scope that you had ever push to . 
+
+`pop` 一个你曾经 push 过的前置作用域
 
 
 ## config 
