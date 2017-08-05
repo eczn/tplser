@@ -1,4 +1,5 @@
 // sytaxer.js 
+// 子函数 只在 find 里面用 
 function _find(key, scopes){
 	return scopes.reduce((target, cur) => {
 		if (key in cur) {
@@ -9,6 +10,7 @@ function _find(key, scopes){
 	}, null); 
 }
 
+// 作用域链寻找变量 
 function find(keyStr, scopes){
 	var keys = keyStr.split('.'); 
 	
@@ -19,6 +21,7 @@ function find(keyStr, scopes){
 	}, fir); 
 }
 
+// get 求值 
 var getEval = (syntaxs, scopes) => {
 	// 创建作用域 
 	var newScope = {}, list = find(syntaxs.o.list, scopes)
@@ -40,7 +43,7 @@ var getEval = (syntaxs, scopes) => {
 	return res; 
 }
 
-
+// if 求值 
 var ifEval = (syntaxs, scopes) => {
 	var how2if = syntaxs.o; 
 	var ifCondition = renderEval(how2if.key, scopes); 
@@ -72,6 +75,7 @@ var ifEval = (syntaxs, scopes) => {
 	return sytaxer(temp, scopes); 
 }
 
+// 值渲染 函数处理  
 var renderEval = (key, scopes) => {
 	var findInScopes = key => find(key, scopes); 
 	var opt = find(key[0], scopes); 
