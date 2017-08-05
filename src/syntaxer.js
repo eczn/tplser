@@ -1,20 +1,19 @@
 // sytaxer.js 
-// 子函数 只在 find 里面用 
-function _find(key, scopes){
-	return scopes.reduce((target, cur) => {
-		if (key in cur) {
-			return cur[key]; 
-		} else {
-			return target; 
-		}
-	}, null); 
-}
 
 // 作用域链寻找变量 
 function find(keyStr, scopes){
-	var keys = keyStr.split('.'); 
-	
-	var fir = _find(keys[0], scopes); 
+	var keys = keyStr.split('.')
+	  , key = keys[0]
+	  , fir = null;
+
+	// For Performance 
+	for (let i = 0; i < scopes.length; i ++){
+		let now = scopes[i]; 
+		if (key in now){
+			fir = now[key]; 
+			break;
+		}
+	}
 
 	return keys.slice(1).reduce((acc, key) => {
 		return acc[key]; 
@@ -29,13 +28,21 @@ var getEval = (syntaxs, scopes) => {
 	// 压入作用域链 
 	scopes.unshift(newScope); 
 
-	var res = new Array(list.length).fill(0).map((_, idx) => {
+	// var res = new Array(list.length).fill(0).map((_, idx) => {
+	// 	newScope[syntaxs.o.index] = idx; 
+	// 	newScope[syntaxs.o.item] = list[idx]; 
+
+	// 	// 求值 
+	// 	return sytaxer(syntaxs, scopes);
+	// }).join(''); 
+
+	var res = ''; 
+	for (let idx = 0; idx < list.length; idx ++) {
 		newScope[syntaxs.o.index] = idx; 
 		newScope[syntaxs.o.item] = list[idx]; 
-
-		// 求值 
-		return sytaxer(syntaxs, scopes);
-	}).join(''); 
+		
+		res += sytaxer(syntaxs, scopes)
+	}
 
 	// 弹出作用域链 
 	scopes.shift(); 

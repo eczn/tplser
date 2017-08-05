@@ -23,18 +23,32 @@ tpl.push = data => tplScopesStack.push(data);
 tpl.pop = () => tplScopesStack.pop(); 
 
 tpl.fromFile = (tplWhere, config = {}) => {
-	var template = fs.readFileSync(tplWhere).toString(); 
+	if (config.noCache){
+		// 不缓存
+		return dataRaw => {
+			var template = fs.readFileSync(tplWhere).toString(); 
 
-	return tpl.fromStr(template, config); 
+			return tpl.fromStr(template, config)(dataRaw)
+		}
+	} else {
+		// 缓存 
+		var template = fs.readFileSync(tplWhere).toString(); 
+
+		return tpl.fromStr(template, config); 		
+	}
 }
 
 tpl.fromStr = (template, config = {}) => {
 	if (config.compress){
 		template = template.replace(/(\n|\r|\t)/g, ''); 
+	} if (config.noCache){
+		// 不缓存 
+		return dataRaw => tpl.render(template, dataRaw)
+	} else {
+		// 缓存 
+		var syntaxes = tpl.getSyntaxs(template); 
+		return dataRaw => tpl.evalFromSyntaxes(syntaxes, dataRaw); 			
 	}
-	var syntaxes = tpl.getSyntaxs(template); 
-
-	return dataRaw => tpl.evalFromSyntaxes(syntaxes, dataRaw); 
 }
 
 tpl.getSyntaxs = template => {
@@ -64,7 +78,7 @@ tpl.getSyntaxs = template => {
 tpl.render = (template, dataRaw) => {
 	// Eval Sytax Array 
 	return syntaxer(
-		getSyntaxs(template),
+		tpl.getSyntaxs(template),
 		tplScopesStack.concat([ dataRaw ])
 	); 
 }
