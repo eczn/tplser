@@ -4,10 +4,19 @@ var EXP = /{{(.*?)}}/g;
 var tpl = {}; 
 var tokenParser = require('./tokenParser'); 
 var syntaxParser = require('./syntaxParser'); 
+// Syntaxer: AST Evaluator 
 var syntaxer = require('./syntaxer'); 
+
+// CodeToken Parser 
 var codeTokenGenerator = require('./codeTokenGenerator'); 
 
-var tplScopesStack = []; 
+// Global 
+var tplGlobal = require('./tplGlobal'); 
+
+// Scopes
+var tplScopesStack = [
+	tplGlobal
+]; 
 
 // 创建、释放全局作用域 
 tpl.push = data => tplScopesStack.push(data); 
