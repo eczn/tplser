@@ -43,26 +43,31 @@ var getEval = (syntaxs, scopes) => {
 
 var ifEval = (syntaxs, scopes) => {
 	var how2if = syntaxs.o; 
-	var itTrue = renderEval(how2if.key, scopes); 
+	var ifCondition = renderEval(how2if.key, scopes); 
+
+	// 取得 else 从句的位置 没有 else 则为 -1 
 	var whereElse = syntaxs.reduce((acc, cur, idx) => {
 		if (cur.token.todo === 'else'){
 			return idx; 
 		} else {
 			return acc; 
 		}
-	}); 
+	}, -1); 
 
 	var temp; 
 
-	if (itTrue) {
-		temp = syntaxs.slice(0, whereElse); 
+	if (ifCondition) {
+		if (~whereElse) {
+		// Has Else 
+			temp = syntaxs.slice(0, whereElse);
+		} else {
+		// No Else 
+			temp = syntaxs; 
+		}
 	} else {
 		// 不包括 else 自己 
 		temp = syntaxs.slice(whereElse + 1); 
 	}
-
-	// console.log(temp); 
-
 
 	return sytaxer(temp, scopes); 
 }
