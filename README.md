@@ -1,4 +1,4 @@
-# tplser@0.0.9
+# tplser@0.1.5
 
 tplser 是一个模版引擎的实现 (使用双花括号风格的)
 
@@ -266,6 +266,44 @@ easy
     <h1>No, it isn't</h1>
 {{ fi }}
 ```
+
+# Performance 
+
+关于性能，我做了个简单的测试 （对比 art-template）, 以下是测试代码:
+
+---
+
+i do a simple speed test, code for testing:
+
+``` html 
+{{ get (item, idx) >>>> list }}
+    {{ item }}
+{{ teg }}
+```
+
+``` html
+{{ each list }}
+    {{ $value }}
+{{ /each }}
+```
+
+``` js
+var arr = new Array(2048).fill(0); 
+var counter = 20; 
+
+console.time('More'); 
+for (let i = 0; i < counter; i++){
+    render({
+        list: arr
+    }); 
+}
+console.timeEnd('More'); 
+```
+
+关于 `More` 的测试结果： 
+
+1. art-template: 23.096 ms 
+2. tplser: 62.283 ms 
 
 # License 
 MIT 
