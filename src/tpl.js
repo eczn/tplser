@@ -32,11 +32,12 @@ tpl.fromStr = (template, config = {}) => {
 	if (config.compress){
 		template = template.replace(/(\n|\r|\t)/g, ''); 
 	}
+	var syntaxes = tpl.getSyntaxs(template); 
 
-	return dataRaw => tpl.render(template, dataRaw); 
+	return dataRaw => tpl.evalFromSyntaxes(syntaxes, dataRaw); 
 }
 
-tpl.render = (template, dataRaw) => {
+tpl.getSyntaxs = template => {
 	var statements = []; 
 
 	template.replace(EXP, (match, p1, offset) => {
@@ -57,15 +58,23 @@ tpl.render = (template, dataRaw) => {
 		}
 	}); 
 
-	// codeTokens.forEach(e => console.log(e))
-	
-	// var d = syntaxParser(codeTokens)
-	// d.forEach(e => console.log(e)); 
-	
+	return syntaxParser(codeTokens); 
+}
+
+tpl.render = (template, dataRaw) => {
 	// Eval Sytax Array 
 	return syntaxer(
-		syntaxParser(codeTokens),
+		getSyntaxs(template),
 		tplScopesStack.concat([ dataRaw ])
+	); 
+}
+
+tpl.evalFromSyntaxes = (syntaxes, data) => {
+	return syntaxer(
+		syntaxes, 
+		tplScopesStack.concat([
+			data
+		])
 	); 
 }
 
