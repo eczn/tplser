@@ -54,9 +54,6 @@ tpl.fromStr = (template, config = {}) => {
 		// 缓存 
 		var syntaxes = tpl.getSyntaxs(template); 
 
-		var r = JSON.stringify(syntaxes); 
-		fs.writeFile('./r2.json', r); 
-		
 		return dataRaw => tpl.evalFromSyntaxes(syntaxes, dataRaw); 			
 	}
 }
