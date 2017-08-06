@@ -41,12 +41,22 @@ tpl.fromFile = (tplWhere, config = {}) => {
 tpl.fromStr = (template, config = {}) => {
 	if (config.compress){
 		template = template.replace(/(\n|\r|\t)/g, ''); 
-	} if (config.noCache){
+	}
+
+	if (config.noSpace){
+		template = template.replace(/}}(\s){{/g, ''); 
+	}
+
+	if (config.noCache){
 		// 不缓存 
 		return dataRaw => tpl.render(template, dataRaw)
 	} else {
 		// 缓存 
 		var syntaxes = tpl.getSyntaxs(template); 
+
+		var r = JSON.stringify(syntaxes); 
+		fs.writeFile('./r2.json', r); 
+		
 		return dataRaw => tpl.evalFromSyntaxes(syntaxes, dataRaw); 			
 	}
 }
@@ -65,12 +75,14 @@ tpl.getSyntaxs = template => {
 	var codeTokens = codeTokenGenerator(statements, template); 
 
 	// 解析 
-	codeTokens.forEach(e => {
+	codeTokens.map(e => {
 		if (e.isCode) {
 			var temp = e.token.slice(2, -2).trim();
 			e.token = tokenParser(temp); 
 		}
 	}); 
+
+	codeTokens = codeTokens.filter(e => e.token !== ''); 
 
 	return syntaxParser(codeTokens); 
 }

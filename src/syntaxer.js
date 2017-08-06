@@ -28,14 +28,6 @@ var getEval = (syntaxs, scopes) => {
 	// 压入作用域链 
 	scopes.unshift(newScope); 
 
-	// var res = new Array(list.length).fill(0).map((_, idx) => {
-	// 	newScope[syntaxs.o.index] = idx; 
-	// 	newScope[syntaxs.o.item] = list[idx]; 
-
-	// 	// 求值 
-	// 	return sytaxer(syntaxs, scopes);
-	// }).join(''); 
-
 	var res = ''; 
 	for (let idx = 0; idx < list.length; idx ++) {
 		newScope[syntaxs.o.index] = idx; 
