@@ -2,6 +2,8 @@
 
 var parseToArr = str => str.split('\t').join(' ').split('').reduce((acc, cur) => {
 	if (cur === ','){
+		// 把逗号当成空格处理
+		acc.push(' '); 
 		return acc; 
 	}
 	if (cur === '(' || cur === '['){
@@ -34,13 +36,37 @@ module.exports = token => {
 
 
 	if (halfTokens[0] === 'get'){
+		let item, idx; 
+
+		if (halfTokens.length <= 3){
+			item = '$item'
+			idx = '$index'; 
+		} else {
+			if (halfTokens[1] === '('){
+				item = halfTokens[2]; 
+				if (halfTokens[3] === ')'){
+					idx = '$index'; 
+				} else {
+					idx = halfTokens[3]; 
+				}
+			} else {
+				item = halfTokens[1]; 
+				idx = '$index'; 
+			}
+		}
+
 		temp = {
 			todo: 'get', 
 			key: halfTokens[0], 
-			item: halfTokens[2], 
-			index: halfTokens[3], 
+			// itme 或者 index 可能缺省 
+			item: item,
+			index: idx,
+			// 最后一个是数组  
 			list: halfTokens[halfTokens.length-1]
 		}
+
+		console.log(halfTokens)
+		console.log(temp); 
 	} else if (halfTokens[0] === 'teg') {
 		temp = {
 			todo: 'teg'
@@ -64,5 +90,6 @@ module.exports = token => {
 			key: halfTokens
 		}
 	}
+
 	return temp; 
 }
