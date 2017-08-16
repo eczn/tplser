@@ -79,6 +79,9 @@ tpl.getSyntaxs = template => {
 		}
 	}); 
 
+	// console.log('!!'); 
+	// console.log(JSON.stringify(codeTokens)); 
+
 	codeTokens = codeTokens.filter(e => e.token !== ''); 
 
 	return syntaxParser(codeTokens); 

@@ -65,8 +65,8 @@ module.exports = token => {
 			list: halfTokens[halfTokens.length-1]
 		}
 
-		console.log(halfTokens)
-		console.log(temp); 
+		// console.log(halfTokens)
+		// console.log(temp); 
 	} else if (halfTokens[0] === 'teg') {
 		temp = {
 			todo: 'teg'
