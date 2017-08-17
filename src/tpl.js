@@ -49,12 +49,12 @@ tpl.fromStr = (template, config = {}) => {
 
 	if (config.noCache){
 		// 不缓存 
-		return dataRaw => tpl.render(template, dataRaw)
+		return dataRaw => tpl.render(template, dataRaw, config)
 	} else {
 		// 缓存 
 		var syntaxes = tpl.getSyntaxs(template); 
 
-		return dataRaw => tpl.evalFromSyntaxes(syntaxes, dataRaw); 			
+		return dataRaw => tpl.evalFromSyntaxes(syntaxes, dataRaw, config); 			
 	}
 }
 
@@ -87,19 +87,23 @@ tpl.getSyntaxs = template => {
 	return syntaxParser(codeTokens); 
 }
 
-tpl.render = (template, dataRaw) => {
+tpl.render = (template, dataRaw, config = {}) => {
 	// Eval Sytax Array 
 	return syntaxer(
 		tpl.getSyntaxs(template),
-		tplScopesStack.concat([ dataRaw ])
+		tplScopesStack.concat([
+			dataRaw,
+			config
+		])
 	); 
 }
 
-tpl.evalFromSyntaxes = (syntaxes, data) => {
+tpl.evalFromSyntaxes = (syntaxes, dataRaw, config = {}) => {
 	return syntaxer(
 		syntaxes, 
 		tplScopesStack.concat([
-			data
+			dataRaw, 
+			config
 		])
 	); 
 }
