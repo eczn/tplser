@@ -55,7 +55,7 @@ tpl.fromFile = (tplWhere, config = {}) => {
 
 		var render = tpl.fromStr(template, config); 
 		
-		renders[fileName] = render; 
+		renders[fileName + 'Render'] = render; 
 
 		return render; 
 	}
