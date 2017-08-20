@@ -12,10 +12,27 @@ var codeTokenGenerator = require('./codeTokenGenerator');
 
 // Global 
 var tplGlobal = require('./tplGlobal'); 
+var renders = {}; 
+
+function getFileName(file){
+	// tplWhere
+	var pos = file.indexOf('/'); 
+
+	if (pos === -1){
+		pos = file.indexOf('\\'); 
+	}
+
+	if (pos === -1) {
+		return file
+	} else {
+		return file.slice(pos + 1); 
+	}
+}
 
 // Scopes
 var tplScopesStack = [
-	tplGlobal
+	tplGlobal, 
+	renders
 ]; 
 
 // 创建、释放全局作用域 
@@ -23,6 +40,8 @@ tpl.push = data => tplScopesStack.push(data);
 tpl.pop = () => tplScopesStack.pop(); 
 
 tpl.fromFile = (tplWhere, config = {}) => {
+	var fileName = getFileName(tplWhere); 
+
 	if (config.noCache){
 		// 不缓存
 		return dataRaw => {
@@ -34,7 +53,11 @@ tpl.fromFile = (tplWhere, config = {}) => {
 		// 缓存 
 		var template = fs.readFileSync(tplWhere).toString(); 
 
-		return tpl.fromStr(template, config); 		
+		var render = tpl.fromStr(template, config); 
+		
+		renders[fileName] = render; 
+
+		return render; 
 	}
 }
 
