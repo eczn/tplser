@@ -16,16 +16,17 @@ var renders = {};
 
 function getFileName(file){
 	// tplWhere
-	var pos = file.indexOf('/'); 
+	var pos = file.lastIndexOf('/'); 
 
 	if (pos === -1){
-		pos = file.indexOf('\\'); 
+		pos = file.lastIndexOf('\\'); 
 	}
 
 	if (pos === -1) {
-		return file
+		return file.slice(0, file.indexOf('.'));
 	} else {
-		return file.slice(pos + 1); 
+		var n = file.slice(pos + 1); 
+		return n.slice(0, n.indexOf('.'));
 	}
 }
 
@@ -62,6 +63,10 @@ tpl.fromFile = (tplWhere, config = {}) => {
 }
 
 tpl.fromStr = (template, config = {}) => {
+	if (!EXP.test(template)) return function(){
+		return template; 
+	}
+
 	if (config.compress){
 		template = template.replace(/(\n|\r|\t)/g, ''); 
 	}
