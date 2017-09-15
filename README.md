@@ -276,6 +276,88 @@ easy
 {{ fi }}
 ```
 
+
+# 内建函数
+
+以下的函数由 `tplser` 提供，并定义在全局，所有模版均可以使用。 
+
+## let 
+
+可以用 let 在当前作用域创建一个变量 
+
+语法结构: `let 'Name Expression`
+
+其意义等同于 `let Name = Expression`; 
+
+比如 `let 'name 'eczn` 即可看作 `let name = 'eczn';`
+
+需要注意，Name 前有 `'` 他是一个字符串。 
+
+You can use `let` to get a alias of an expression. 
+
+Syntax Structure: `let 'Name Exporession` 
+
+it equals to `let Name = Expression` 
+
+such as `let 'name 'eczn` means `let name = 'eczn';`
+
+BTW, there is a `'` before `Name`, DO NOT IGNORE IT. 
+
+Example: 
+
+``` html
+<!-- let name = 'eczn'; -->
+{{ let 'name 'eczn }}
+{{ name }}
+```
+
+结果是 `eczn`
+
+the result is `eczn`
+
+## getPropertyOf 
+
+因为采用了前缀调用的方式，因此 tplser 在某些方面好奇怪的，比如获取对象的属性上，需要使用 `getPropertyOf` 
+
+you can use `getPropertyOf` to get property of an obj; 
+
+tplser 原生支持 `.` 号的方式去取对象，但是不支持第二种会很蛋疼，为了解决这个问题，引入了 getPropertyOf 
+
+although you can use '.' to get property of an obj, but you can't use variable as key to get property. 
+
+
+{{ getPropertyOf obj val1 val2 val3 ... }} 
+
+`tplser` 将会解释成 `obj[val1][val2][val3]` 
+
+比如现有数组 `album[]` 
+
+``` js
+let albums = {
+    "home": ['0.jpg', '1.png'],
+    "school": ['my school.jpg']
+}
+let locals = ["home", "school"]; 
+```
+
+``` html
+{{ get (local, idx) >>>> locals }}
+    {{ let 'album getPropertyOf albums local }}
+
+    {{ get (pic, pic_idx) >>>> album }}
+        <img src="{{ pic }}" alt="local" />
+    {{ teg }}
+{{ teg }}
+```
+
+the result is : 
+
+``` html
+<img src="0.jpg" alt="local" />
+<img src="1.png" alt="local" />
+<img src="my school.jpg" alt="local" />
+```
+
 # Performance 
 
 关于性能，我做了个简单的测试 （对比 art-template）, 以下是测试代码:
