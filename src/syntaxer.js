@@ -1,10 +1,15 @@
 // sytaxer.js 
+var STR_EXP = /'(.*?)'/g; 
 
 // 作用域链寻找变量 
 function find(keyStr, scopes){
 	var keys = keyStr.split('.')
 	  , key = keys[0]
 	  , fir = null;
+
+	if (key.startsWith("'")){
+		return key.slice(1); 
+	}
 
 	// For Performance 
 	for (let i = 0; i < scopes.length; i ++){

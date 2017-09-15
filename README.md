@@ -1,4 +1,4 @@
-# tplser@0.1.9
+# tplser@2.0.0
 
 tplser 是一个模版引擎的实现 (使用双花括号风格的)
 
@@ -181,6 +181,15 @@ but you `can't` do that:
 {{ person . name }}
 ```
 
+## 字符串 String 
+
+任意一个由 `'` 起头的表达式将会被解释成字符串 
+
+string are any expresstions just startswith `'`  
+
+``` html
+{{ 'i_am_eczn }}
+```
 
 ## 表达式渲染 Render Evaluation
 
