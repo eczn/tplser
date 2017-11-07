@@ -2,3 +2,4 @@
 node_modules/ 
 dest/
 test/
+npm-debug.log*
