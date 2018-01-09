@@ -278,7 +278,7 @@ easy
 
 ## this 
 
-`this` 始终指向作用域的最顶部 
+`this` 始终指向当前作用域
 
 ``` js
 let testRender = tpl.fromFile('./test.html'); 
