@@ -1,5 +1,5 @@
 // sytaxer.js 
-var STR_EXP = /'(.*?)'/g; 
+const STR_EXP = /'(.*?)'/g; 
 
 // 作用域链寻找变量 
 function find(keyStr, scopes){
@@ -86,7 +86,7 @@ var renderEval = (key, scopes) => {
 	if (typeof opt === 'function'){
 		return opt.apply(
 			// 顶部作用域 
-			scopes[0],
+			scopes[scopes.length - 1],
 			// 参数表 
 			key.slice(1).map(findInScopes)
 		); 
@@ -97,7 +97,10 @@ var renderEval = (key, scopes) => {
 
 
 function sytaxer(syntaxs, scopes){
-	// 求值 
+	// 作用域 this 
+	let scopesTop = scopes[scopes.length - 1]; 
+	scopesTop.this = scopesTop; 
+
 	return syntaxs.reduce((acc, syntax) => {
 		if (Array.isArray(syntax)){
 			
