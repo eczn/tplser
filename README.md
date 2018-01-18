@@ -1,4 +1,4 @@
-# tplser@2.0.0
+# tplser@1.0.0
 
 tplser 是一个模版引擎的实现 (使用双花括号风格的)
 
@@ -276,6 +276,56 @@ easy
 {{ fi }}
 ```
 
+## this 
+
+`this` 始终指向当前作用域
+
+``` js
+let testRender = tpl.fromFile('./test.html'); 
+
+var data = {
+    msg: 'hello'
+};
+
+testRender(data); 
+```
+
+``` html
+<!-- test.html -->
+{{ this }}
+这个 this 就是 data 
+
+这两个是等价的： 
+{{ this.msg }}
+{{ msg }}
+```
+
+## 引入另外一个模版 
+
+``` js
+let testRender = tpl.fromFile('./test.html')
+  , homeRender = tpl.fromFile('./home.html')
+
+testRender({
+    msg: 'hello'
+}); 
+```
+
+``` html
+<!-- test.html -->
+
+MyHome: 
+
+{{ $homeRender this }} 
+```
+
+``` html
+<!-- home.html -->
+{{ this.msg }} 
+<!-- result: hello -->
+```
+
+值得注意的是，home 不会继承 test 的作用域。 
 
 # 内建函数
 

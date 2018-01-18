@@ -59,6 +59,10 @@ var tplGlobal = {
 		}
 
 		return ''; 
+	}, 
+	// 对象转 JSON 
+	toJSON: function(o){
+		return JSON.stringify(o); 
 	}
 }; 
 

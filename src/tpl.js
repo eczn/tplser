@@ -56,7 +56,7 @@ tpl.fromFile = (tplWhere, config = {}) => {
 
 		var render = tpl.fromStr(template, config); 
 		
-		renders[fileName + 'Render'] = render; 
+		renders['$' + fileName + 'Render'] = render; 
 
 		return render; 
 	}
@@ -77,12 +77,12 @@ tpl.fromStr = (template, config = {}) => {
 
 	if (config.noCache){
 		// 不缓存 
-		return dataRaw => tpl.render(template, dataRaw, config)
+		return dataRaw => tpl.render(template, dataRaw)
 	} else {
 		// 缓存 
 		var syntaxes = tpl.getSyntaxs(template); 
 
-		return dataRaw => tpl.evalFromSyntaxes(syntaxes, dataRaw, config); 			
+		return dataRaw => tpl.evalFromSyntaxes(syntaxes, dataRaw);
 	}
 }
 
@@ -115,23 +115,21 @@ tpl.getSyntaxs = template => {
 	return syntaxParser(codeTokens); 
 }
 
-tpl.render = (template, dataRaw, config = {}) => {
+tpl.render = (template, dataRaw) => {
 	// Eval Sytax Array 
 	return syntaxer(
 		tpl.getSyntaxs(template),
 		tplScopesStack.concat([
-			dataRaw,
-			config
+			dataRaw
 		])
 	); 
 }
 
-tpl.evalFromSyntaxes = (syntaxes, dataRaw, config = {}) => {
+tpl.evalFromSyntaxes = (syntaxes, dataRaw) => {
 	return syntaxer(
 		syntaxes, 
 		tplScopesStack.concat([
-			dataRaw, 
-			config
+			dataRaw
 		])
 	); 
 }
