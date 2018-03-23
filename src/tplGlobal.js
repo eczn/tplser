@@ -63,7 +63,8 @@ var tplGlobal = {
 	// 对象转 JSON 
 	toJSON: function(o){
 		return JSON.stringify(o); 
-	}
+	}, 
+	keysFor: o => Object.keys(o)
 }; 
 
 module.exports = tplGlobal; 
