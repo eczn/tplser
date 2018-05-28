@@ -1,89 +1,57 @@
-# tplser@1.0.0
+# tplser@2.0.1
 
-tplser 是一个模版引擎的实现 (使用双花括号风格的)
+<!-- 还没搞定  [中文文档](./doc/zh-cn.md) -->
 
 tplser is an implementation of a template evaluator. ( `{{ }}` style syntax ) 
 
 
-# how to build  
+# how to use ?   
 
-安装依赖 
-
-
-install dependencies 
-
-``` bash 
-$ npm install 
-```
-
-需要全局安装 gulp （安装过的可以不用了）
-
-and if you do not install `gulp` globally. run this : 
-
-``` bash 
-$ npm install -g gulp 
-```
-
-最后运行这个去 build tplser.js 
-
-in the last, run this to build `tplser.js` : 
-
-``` bash 
-$ npm run build 
-```
-
-文件在 dest 里面可以找到 
-
-and the file output to `dest/`
-
-# Browser 
+## Browser 
 
 supported no longer since version 2.0.0
 
 
-# Node.js 
+## Node.js 
 
-node 中使用：
+first, downloading module from npm: 
 
 ``` bash
 $ npm install --save tplser 
 ```
 
-安装好之后就可以干活了。 
-
-
+and, this is an easy example: 
 
 ``` js
-var tpl = require('tplser'); 
-var template = `
-    <h1> {{ hello }} </h1>
+const tpl = require('tplser'); 
+
+let template = `
+    <h1>{{ message }}</h1>
 `; 
 
-var helloRender = tpl.fromStr(template, {
-    compress: true
+let render = tpl.compile(template, {
+    /* some compile option ignored (as default) */
 }); 
 
-helloRender({
-    hello: 'world'
+let result = render({
+    message: 'hello, world'
 }); 
 // => 
-// <h1> world </h1>
+// <h1>hello, world</h1>
 ```
+
+
 
 # API 
 
-## tpl.fromStr(str[, config]) 
+## tpl.compile(template[, compile_opt]) 
 
-calling tpl.fromStr will get a render function .
+calling tpl.fromStr will get a render function. And when feeding data to this render function, `tplser` will evaluate the result: 
 
-调用 tpl.fromStr 将会得到 render 函数 
-
-when feeding data to render function, `tplser` will evaluate the result : 
-
-然后把数据喂给 render 函数，`tplser` 就可以求值得到结果了 
-
-``` js
-var render = tpl.fromStr(`{{ hello }}`); 
+``` js 
+// compile_opt is ignored in this case,
+// and tplser will use default option to compile template
+let render = tpl.compile(`{{ hello }}`); 
 render({
     hello: 'world'
 }); 
@@ -91,40 +59,50 @@ render({
 // 'world'
 ```
 
-## tpl.fromFile(filePath[, config])
+## compile_opt 
 
-`fromFile` will read the file as `string`, and use it with `tpl.fromStr` to generate a render function. 
-
-`fromFile` 会以字符串的形式读取文件，然后喂进 fromStr 得到 render 函数
-
-
-## tpl.push(data)
-
-`create` a pre-scope when evaluating template. 
-
-在解释求值模版的时候 `创建` 一个前置作用域（对所有模版可见的）
-
-## tpl.pop(data) 
-
-`pop` a pre-scope that you had ever push to . 
-
-`pop` 一个你曾经 push 过的前置作用域
+| field name | default value | description |
+|------------|---------------|-------------|
+|  compress  |     false     | delete some additional character like `\n` or '\t' or ' ' or '\r' in template. | 
 
 
-## config 
+## tpl.watchFile(filePath[, compile_opt], callback)
 
-### compress: boolean
-delete `\n` or '\t' or ' ' or '\r' in template. 
+for example: 
 
-使用 compress 删除多余的换行符、制表符、回车符。 
+``` js 
+const path = require('path')
+    , tpl = require('tplser')
+    , tpl_path = path.join(__dirname, './tpl.html'); 
+
+
+function onChange(render) {
+    let res = render({
+        name: 'eczn' 
+    }); 
+
+    console.log(res); 
+}
+
+let wacher = tpl.watchFile(tpl_path, onChange); 
+```
+
+when file changed, `onChange` will be executed, and the render is the render function generated from `tpl_path`
+
+
+## tpl.push(scope)
+
+`push` a pre-scope when evaluating template. 
+
+
+## tpl.pop() 
+
+`pop` a pre-scope that last time you had ever pushed to. 
+
 
 # Grammer  
 
-语法
-
-## 表达式 Expression Evaluation 
-
-像下面那样用 `双花括号` 括住 `something` ：
+## Expression Evaluation 
 
 If you use `{{ }}` to enclose something like this : 
 
@@ -132,15 +110,9 @@ If you use `{{ }}` to enclose something like this :
 {{ something }}
 ```
 
-这种东西在 `tplser` 里面叫做表达式（凭感觉命名的。。。 不知道有没有专业说法）
-
-其他的语法比如用 `get` 关键字遍历数组啊或者 if/else 这样的，他们都是表达式。 
-
 It is called Expression in `tplser`. And Other Usages like using `get` keyword to forEach a list or use if/else are all `Expression`
 
 --- 
-
-此外 在求值表达式的时候 求值对象可以是对象：
 
 BTW, when evaluating an expression, object is allowed:
 
@@ -148,36 +120,23 @@ BTW, when evaluating an expression, object is allowed:
 {{ person.name }}
 ```
 
-但是这样做是 `非法` 的：
-
 but you `can't` do that: 
 
 ``` html
 {{ person . name }}
 ```
 
-## 字符串 String 
+## String 
 
-任意一个由 `'` 起头的表达式将会被解释成字符串 
-
-string are any expresstions just startswith `'`  
+string are any expresstions just startswith `'`, such as: 
 
 ``` html
 {{ 'i_am_eczn }}
 ```
 
-## 表达式渲染 Render Evaluation
-
-把数据喂给表达式，`tplser` 就可以正确的对模版求值了。求值只有两种情况： 
+## Render Evaluation
 
 when feed the data to Expression, `tplser` will evaluate the value of it. There are 2 condition when evalueting a template: 
-
-1. 如果 `something` 是一个普通的数据，比如数字啊，字符串或者任意其他的可以转换成函数的变量
-2. 如果 `something` 是一个函数，说明这条表达式是一个函数调用，或者说数据过滤器这样的，tplser 的函数调用其实是受了 S表达式的启发，采用前缀调用的方式 （这样比较好处理！而且可以变长参数）
-
-以下是 demo 
-
----
 
 1. If `something` is a normal data, such as number, string or and other data can be converted to a string 
 2. If `something` is a function, it means `function invoktion`, or called `data filter`, tplser's function inspired by S-Expressiion, (easy to parse) 
@@ -215,10 +174,6 @@ var html = render({
 
 ## get 
 
-使用 `get` 去完成列表渲染的活儿
-
----
-
 use `get` to finish list render. 
 
 ``` html 
@@ -229,19 +184,12 @@ use `get` to finish list render.
 </ul>
 ```
 
-下一步需要把数据喂给 render 函数就行了 
+and next step is to feed data to render function.
 
----
-
-next step is to feed data to render function .
 
 ## if / else 
 
-你懂的 
-
----
-
-easy 
+easy: 
 
 ``` html 
 {{ if isIt }}
@@ -251,74 +199,14 @@ easy
 {{ fi }}
 ```
 
-## this 
+# built in function
 
-`this` 始终指向当前作用域
+`tplser` implements some built in function. 
 
-``` js
-let testRender = tpl.fromFile('./test.html'); 
-
-var data = {
-    msg: 'hello'
-};
-
-testRender(data); 
-```
-
-``` html
-<!-- test.html -->
-{{ this }}
-这个 this 就是 data 
-
-这两个是等价的： 
-{{ this.msg }}
-{{ msg }}
-```
-
-## 引入另外一个模版 
-
-``` js
-let testRender = tpl.fromFile('./test.html')
-  , homeRender = tpl.fromFile('./home.html')
-
-testRender({
-    msg: 'hello'
-}); 
-```
-
-``` html
-<!-- test.html -->
-
-MyHome: 
-
-{{ $homeRender this }} 
-```
-
-``` html
-<!-- home.html -->
-{{ this.msg }} 
-<!-- result: hello -->
-```
-
-值得注意的是，home 不会继承 test 的作用域。 
-
-# 内建函数
-
-以下的函数由 `tplser` 提供，并定义在全局，所有模版均可以使用。 
 
 ## let 
 
-可以用 let 在当前作用域创建一个变量 
-
-语法结构: `let 'Name Expression`
-
-其意义等同于 `let Name = Expression`; 
-
-比如 `let 'name 'eczn` 即可看作 `let name = 'eczn';`
-
-需要注意，Name 前有 `'` 他是一个字符串。 
-
-You can use `let` to get a alias of an expression. 
+You can use `let` to get a alias of an expression.
 
 Syntax Structure: `let 'Name Exporession` 
 
@@ -342,20 +230,19 @@ the result is `eczn`
 
 ## getPropertyOf 
 
-因为采用了前缀调用的方式，因此 tplser 在某些方面好奇怪的，比如获取对象的属性上，需要使用 `getPropertyOf` 
-
 you can use `getPropertyOf` to get property of an obj; 
-
-tplser 原生支持 `.` 号的方式去取对象，但是不支持第二种会很蛋疼，为了解决这个问题，引入了 getPropertyOf 
 
 although you can use '.' to get property of an obj, but you can't use variable as key to get property. 
 
+such as : 
 
+``` html 
 {{ getPropertyOf obj val1 val2 val3 ... }} 
+```
 
-`tplser` 将会解释成 `obj[val1][val2][val3]` 
+`tplser` will interpret it as `obj[val1][val2][val3]` 
 
-比如现有数组 `album[]` 
+Go further: 
 
 ``` js
 let albums = {
@@ -385,10 +272,6 @@ the result is :
 
 # Performance 
 
-关于性能，我做了个简单的测试 （对比 art-template）, 以下是测试代码:
-
----
-
 i do a simple speed test, code for testing:
 
 ``` html 
@@ -416,10 +299,11 @@ for (let i = 0; i < counter; i++){
 console.timeEnd('More'); 
 ```
 
-关于 `More` 的测试结果： 
+test result:  
 
 1. art-template: 23.096 ms 
 2. tplser: 62.283 ms 
 
 # License 
+
 MIT 
