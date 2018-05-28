@@ -38,40 +38,15 @@ and the file output to `dest/`
 
 # Browser 
 
-浏览器中使用
+supported no longer since version 2.0.0
 
-``` html
-<script src="path/to/tplser.js"></script>
-```
-
-然后 tplser 会暴露在 `window.tpl` 上 
-
-and then : 
-
-``` js 
-// Get Render Function 
-var render = tpl.fromStr(`
-    <div>
-        <ul>
-        {{ get (item, i) >>>> list }}
-            <li> {{ item }} </li>
-        {{ teg }}
-        </ul>
-    </div>
-`);
-
-// And Pay The Data For It : 
-var html = render({
-    list: ['hello', 'world', 'nice', 'to', 'meet', 'you']
-})
-```
 
 # Node.js 
 
 node 中使用：
 
 ``` bash
-$ npm install tplser 
+$ npm install --save tplser 
 ```
 
 安装好之后就可以干活了。 

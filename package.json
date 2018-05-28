@@ -1,6 +1,6 @@
 {
   "name": "tplser",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "an implementation of a template evaluator",
   "main": "src/tpl.js",
   "directories": {
@@ -12,14 +12,6 @@
   },
   "author": "eczn",
   "license": "MIT",
-  "repository": "https://github.com/eczn/tplser", 
-  "devDependencies": {
-    "babel-preset-es2015": "^6.24.1",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-browserify": "^0.5.1",
-    "gulp-header": "^1.8.9",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^3.0.0"
-  }
+  "repository": "https://github.com/eczn/tplser",
+  "devDependencies": {}
 }
