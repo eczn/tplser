@@ -1,5 +1,12 @@
 // codeTokenGenerator.js
-module.exports = (statements, template) => {
+const tokenParser = require('./tokenParser')
+	, getStatements = require('./get-statements')
+
+module.exports = codeTokenGenerator; 
+
+function codeTokenGenerator(template) {
+	let statements = getStatements(template); 
+
 	return statements.reduce((acc, stat, idx, its) => {
 		if (idx === 0){
 			acc.push({
@@ -18,7 +25,9 @@ module.exports = (statements, template) => {
 
 		acc.push({
 			isCode: true, 
-			token: stat.token
+			token: tokenParser(
+				stat.token.slice(2, -2).trim()
+			)
 		}); 
 
 		return acc; 
@@ -27,9 +36,8 @@ module.exports = (statements, template) => {
 		{
 			isCode: false, 
 			token: template.slice(
-				
 				statements[statements.length - 1].offset + statements[statements.length - 1].token.length
 			)
 		}
-	]); 
+	]).filter(e => e.token !== ''); 
 }

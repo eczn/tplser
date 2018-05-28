@@ -1,5 +1,14 @@
-// syntaxParser.js
-var syntaxParser = codeTokens => {
+const codeTokenGenerator = require('./code-token-generator'); 
+
+module.exports = getStntax; 
+
+function getStntax(tpl) {
+    let codeTokens = codeTokenGenerator(tpl); 
+
+    return syntaxParser(codeTokens); 
+}
+
+function syntaxParser(codeTokens) {
 	var res = [], deep = 0; 
 
 	for (let i = 0; i < codeTokens.length; i++){
@@ -33,5 +42,3 @@ var syntaxParser = codeTokens => {
 
 	return res; 
 }
-
-module.exports = syntaxParser; 

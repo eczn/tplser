@@ -42,6 +42,7 @@ var tplGlobal = {
 			return acc[name]; 
 		}, main); 
 	}, 
+	
 	// let 定义变量别名  
 	let: function(){
 		let args = Array.from(arguments);
@@ -60,10 +61,12 @@ var tplGlobal = {
 
 		return ''; 
 	}, 
+
 	// 对象转 JSON 
 	toJSON: function(o){
 		return JSON.stringify(o); 
 	}, 
+
 	keysFor: o => Object.keys(o)
 }; 
 

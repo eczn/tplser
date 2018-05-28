@@ -1,4 +1,5 @@
-// sytaxer.js 
+// syntaxer.js 
+const Scope = require('../Scope')
 const STR_EXP = /'(.*?)'/g; 
 
 // 作用域链寻找变量 
@@ -38,7 +39,7 @@ var getEval = (syntaxs, scopes) => {
 		newScope[syntaxs.o.index] = idx; 
 		newScope[syntaxs.o.item] = list[idx]; 
 		
-		res += sytaxer(syntaxs, scopes)
+		res += syntaxer(syntaxs, scopes)
 	}
 
 	// 弹出作用域链 
@@ -76,7 +77,7 @@ var ifEval = (syntaxs, scopes) => {
 		temp = syntaxs.slice(whereElse + 1); 
 	}
 
-	return sytaxer(temp, scopes); 
+	return syntaxer(temp, scopes); 
 }
 
 // 值渲染 函数处理  
@@ -96,7 +97,7 @@ var renderEval = (key, scopes) => {
 }
 
 
-function sytaxer(syntaxs, scopes){
+function syntaxer(syntaxs, scopes) {
 	// 作用域 this 
 	let scopesTop = scopes[scopes.length - 1]; 
 	scopesTop.this = scopesTop; 
@@ -127,4 +128,10 @@ function sytaxer(syntaxs, scopes){
 	}, ''); 
 }
 
-module.exports = sytaxer; 
+function main(syntaxs, addtion_scope) {
+	let scopes = Scope.extend(addtion_scope); 
+
+	return syntaxer(syntaxs, scopes); 
+}
+
+module.exports = main; 
