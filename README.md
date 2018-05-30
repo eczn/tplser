@@ -1,20 +1,20 @@
-# tplser@2.0.1
+# tplser@2.0.x
 
 <!-- 还没搞定  [中文文档](./doc/zh-cn.md) -->
 
-tplser is an implementation of a template evaluator. ( `{{ }}` style syntax ) 
+tplser is an implementation of a template evaluator. (mustaches style syntax) 
 
 
 # how to use ?   
 
 ## Browser 
 
-supported no longer since version 2.0.0
+**supported NO LONGER since version 2.0.0**
 
 
 ## Node.js 
 
-first, downloading module from npm: 
+first, downloading modules from npm: 
 
 ``` bash
 $ npm install --save tplser 
@@ -44,6 +44,15 @@ let result = render({
 
 # API 
 
+## compile_opt 
+
+compile_opt is a type of param passing to tplser's API. (such as the 2nd parameter of *tpl.compile*)
+
+| Name       | Default       | Description  |
+|------------|---------------|--------------|
+| compress   | false         | delete some additional character like `\n` or '\t' or ' ' or '\r' in template for performance. | 
+
+
 ## tpl.compile(template[, compile_opt]) 
 
 calling tpl.fromStr will get a render function. And when feeding data to this render function, `tplser` will evaluate the result: 
@@ -58,12 +67,6 @@ render({
 // =>
 // 'world'
 ```
-
-## compile_opt 
-
-| field name | default value | description |
-|------------|---------------|-------------|
-|  compress  |     false     | delete some additional character like `\n` or '\t' or ' ' or '\r' in template. | 
 
 
 ## tpl.watchFile(filePath[, compile_opt], callback)
@@ -94,10 +97,39 @@ when file changed, `onChange` will be executed, and the render is the render fun
 
 `push` a pre-scope when evaluating template. 
 
+example: 
+
+``` js
+let render = tpl.compile(`
+    {{ a_var_in_pre_scope }}
+`); 
+
+render({}); 
+// => 
+// `null` 
+
+// Now Push A Global Scope 
+tpl.push({
+    a_var_in_pre_scope: 'i am in global scope'
+}); 
+
+render({}); 
+// => 
+// `i am in global scope`
+
+// Over Write 
+render({
+    a_var_in_pre_scope: '0v0'
+}); 
+// => 
+// `0v0`
+```
+
 
 ## tpl.pop() 
 
-`pop` a pre-scope that last time you had ever pushed to. 
+`pop` a pre-scope that last time you had ever pushed to. (just undo the operation that pushing a pre-scope to tpl envirenmnt)
+
 
 
 # Grammer  
