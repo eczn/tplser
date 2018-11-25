@@ -8,3 +8,5 @@ test.js
 test.html
 
 package-lock.json
+dist/
+.DS_Store

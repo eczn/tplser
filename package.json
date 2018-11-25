@@ -1,20 +1,25 @@
 {
   "name": "tplser",
-  "version": "2.0.2",
-  "description": "an implementation of a template evaluator",
-  "main": "src/index.js",
-  "directories": {
-    "test": "test"
-  },
+  "version": "5.0.0",
+  "description": "",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp build"
+    "dev": "rollup --config rollup.config.dev.js",
+    "bulid": ""
   },
   "author": "eczn",
   "license": "MIT",
-  "repository": "https://github.com/eczn/tplser",
-  "devDependencies": {},
+  "devDependencies": {
+    "chokidar": "^2.0.4",
+    "rollup-plugin-fill-html": "^1.1.0",
+    "rollup-plugin-html": "^0.2.1",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-serve": "^0.6.0",
+    "rollup-plugin-typescript": "^1.0.0",
+    "tslib": "^1.9.3",
+    "typescript": "^3.1.6"
+  },
   "dependencies": {
-    "chokidar": "^2.0.3"
+    "@types/chokidar": "^1.7.5"
   }
 }
