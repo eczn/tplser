@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "rollup --config rollup.config.dev.js",
+    "dev": "rollup -w --config rollup.config.dev.js",
     "bulid": ""
   },
   "author": "eczn",

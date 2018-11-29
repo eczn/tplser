@@ -3,10 +3,9 @@ import json from 'rollup-plugin-json';
 // import serve from 'rollup-plugin-serve'; 
 import html from 'rollup-plugin-fill-html';
 
-
 export default [
     {
-        input: 'src/core/compile/index.ts',
+        input: 'src/core/index.ts',
         plugins: [
             // html({
             //     template: 'src/dev.html',
