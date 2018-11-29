@@ -5,7 +5,11 @@ import { Token, GetToken, RenderToken, IfToken } from "../TCompile";
 // const STR_EXP = /'(.*?)'/g; 
 
 
-// get 求值 
+/**
+ * 处理 get token 
+ * @param token 
+ * @param scope 
+ */
 function getEval(token: GetToken, scope: Scope): string {
 	const { args, inner } = token; 
 
@@ -27,7 +31,11 @@ function getEval(token: GetToken, scope: Scope): string {
 	return res; 
 }
 
-// if 求值 
+/**
+ * 处理 if token 
+ * @param token 
+ * @param scope 
+ */
 function ifEval(token: IfToken, scope: Scope): string {
 	const ifCondition = renderEval(token, scope); 
 
@@ -49,6 +57,11 @@ function ifEval(token: IfToken, scope: Scope): string {
 	return runner(theInner, scope); 
 }
 
+/**
+ * 处理 render token 
+ * @param token 
+ * @param scope 
+ */
 function renderEval(token: RenderToken | IfToken, scope: Scope) {
 	const [opt, ...restVals] = token.args.map(e => scope.find(e)); 
 
@@ -62,6 +75,11 @@ function renderEval(token: RenderToken | IfToken, scope: Scope) {
 	}
 }
 
+/**
+ * 遍历 token 
+ * @param tokens 
+ * @param scope 
+ */
 function runner(tokens: Token[], scope: Scope) {
 	return tokens.reduce((acc, token) => {
 		// console.log(token)
@@ -94,29 +112,13 @@ function runner(tokens: Token[], scope: Scope) {
 	}, ''); 
 }
 
+/**
+ * tpl 虚拟机 
+ * @param tokens 
+ * @param addtional_scope 
+ */
 export function tplEval(tokens: Token[], addtional_scope: object) {
 	let eval_scope = global_scope.extend(addtional_scope); 
 
 	return runner(tokens, eval_scope); 
 }
-
-
-// const tokens = compile(`
-// 	{{ get (item, idx) <<< a }}
-
-// 		{{ if > item 2 }}
-// 			fuck {{ item }}
-// 		{{ else }}
-// 			en ... {{ item }}
-// 		{{ fi }}
-
-// 	{{ teg }}
-// `); 
-
-// const res = tplEval(tokens, {
-// 	chs: ['a', 'b'], 
-// 	a: [1, 2, 3], 
-// 	b: [4, 5],
-// }); 
-
-// console.log(res); 

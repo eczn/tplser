@@ -1,4 +1,3 @@
-// const global_scope = require('./scope-define')
 import { tplGlobal } from "./scope-define"; 
 
 export type AnyObj = {
