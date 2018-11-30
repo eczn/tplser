@@ -1,4 +1,4 @@
-# tplser @5.x 
+# tplser@5.x 
 
 建设中 ... 
 building ... 
@@ -12,7 +12,7 @@ $ npm run dev
 ```
 
 ``` bash 
-# For dist build 
+# For dist build (bundle as CommonJS & UMD in dist/)
 $ npm run dist 
 ```
 

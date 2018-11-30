@@ -1,6 +1,8 @@
 import typescript from 'rollup-plugin-typescript2';
 import json from 'rollup-plugin-json';
 import rimraf from "rimraf";
+import { uglify } from "rollup-plugin-uglify";
+
 
 rimraf.sync('./dist');
 rimraf.sync('./typings');
@@ -12,6 +14,7 @@ const tplserDist = {
         typescript({
             useTsconfigDeclarationDir: true
         }), 
+        uglify()
     ], 
     output: {
         file: 'dist/tplser.dist.js', 
@@ -26,6 +29,7 @@ const tplserUMD = {
         typescript({
             tsconfigOverride: { compilerOptions: { declaration: false } }
         }), 
+        uglify()
     ], 
     output: {
         name: 'tplser', 

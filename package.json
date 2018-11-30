@@ -3,10 +3,11 @@
   "version": "5.0.0",
   "description": "",
   "main": "dist/index.js",
-  "types": "typings/core/index.d.ts", 
+  "types": "typings/core/index.d.ts",
   "scripts": {
     "dist": "rollup --config rollup.config.dist.js",
-    "dev": "rollup -w --config rollup.config.dev.js"},
+    "dev": "rollup -w --config rollup.config.dev.js"
+  },
   "author": "eczn",
   "license": "MIT",
   "devDependencies": {
@@ -18,6 +19,7 @@
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-serve": "^0.6.0",
     "rollup-plugin-typescript2": "^0.18.0",
+    "rollup-plugin-uglify": "^6.0.0",
     "tslib": "^1.9.3",
     "typescript": "^3.1.6"
   }
