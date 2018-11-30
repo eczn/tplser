@@ -1,18 +1,25 @@
-# tplser@5.x 
 
-建设中 ... 
-building ... 
+# tplser
+
+[![npm version](https://badge.fury.io/js/tplser)](//npmjs.com/package/tplser)
+
+``` bash
+# Install 
+$ npm i --save tplser 
+```
 
 
 # Dev / Build 
 
+怎样本地开发以及打包，欢迎 issues 、PR。 
+
 ``` bash
-# For dev
+# 本地开发
 $ npm run dev 
 ```
 
 ``` bash 
-# For dist build (bundle as CommonJS & UMD in dist/)
+# 打包为 CommonJS 和 UMD 到 dist/ 下
 $ npm run dist 
 ```
 
@@ -20,3 +27,4 @@ $ npm run dist
 # License 
 
 MIT
+
