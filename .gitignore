@@ -14,4 +14,4 @@ dev/
 
 .rpt2_cache/ 
 
-typings/ 
+types/ 
