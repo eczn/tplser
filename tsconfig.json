@@ -18,7 +18,7 @@
     "noUnusedLocals": true, 
     "experimentalDecorators": true, 
     "declaration": true, 
-    "declarationDir": "typings/"
+    "declarationDir": "dist/typings/"
   },
   "exclude": [
     "node_modules/",
