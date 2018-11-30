@@ -2,13 +2,13 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist",
-    "module": "cjs",
+    "module": "ES2015",
     "target": "es5",
     "lib": ["es6", "dom"],
     "sourceMap": true,
-    "allowJs": true,
+    "allowJs": false,
     "moduleResolution": "node",
-    "rootDir": "src",
+    "rootDir": "src/",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -16,10 +16,14 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true, 
-    "experimentalDecorators": true
+    "experimentalDecorators": true, 
+    "declaration": true, 
+    "declarationDir": "typings/"
   },
   "exclude": [
     "node_modules/",
-    "dist/"
+    "dist/", 
+    "typings/",
+    "test/"
   ]
 }

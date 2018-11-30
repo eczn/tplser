@@ -1,4 +1,4 @@
-import typescript from 'rollup-plugin-typescript';
+import typescript from 'rollup-plugin-typescript2';
 import json from 'rollup-plugin-json';
 // import serve from 'rollup-plugin-serve'; 
 import html from 'rollup-plugin-fill-html';
@@ -12,11 +12,14 @@ export default [
             //     filename: 'index.html'
             // }), 
             json(), 
-            typescript(), 
+            typescript({
+                tsconfig: 'tsconfig.json', 
+                tsconfigOverride: { compilerOptions: { declaration: false } }
+            }), 
             // serve('dist')
         ], 
         output: {
-            file: 'dist/compile.dev.js', 
+            file: 'dev/compile.dev.js', 
             format: 'cjs'
         }, 
         watch: {
