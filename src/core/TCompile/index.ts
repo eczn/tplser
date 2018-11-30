@@ -3,8 +3,8 @@ import { tplEval } from "../Runner";
 
 export * from "./token-util"; 
 
-export function compile(tpl: string, opt: object) {
-    return (data: any) => {
+export function compile(tpl: string, opt: object = {}) {
+    return (data: any = {}) => {
         const astTree = tokenFold(getToken(tpl)); 
 
         return tplEval(
@@ -12,4 +12,3 @@ export function compile(tpl: string, opt: object) {
         ); 
     }
 }
-

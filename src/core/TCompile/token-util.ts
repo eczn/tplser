@@ -1,4 +1,3 @@
-
 export type Value = (number | string); 
 
 export type StringToken = string;
@@ -127,29 +126,38 @@ export function tokenParser(token: string) {
 const EXP = /{{(.*?)}}/g; 
 
 /**
- * 获取 statement 
+ * 获取 token 
  * @param { String } str 模板
  */
 export function getToken(str: string): Token[] {
     const statements: Token[] = [];
     let p = 0; 
 
+	// 寻找 {{ }}
     str.replace(EXP, (match: string, __: any, offset: number) => {
+		// 普通字符串
         statements.push(str.substring(p, offset)); 
 
+		// 标记 
         const code = match.slice(2, -2).trim(); 
-
 		statements.push(tokenParser(code)); 
 
-        p = offset + match.length; 
-        
+		p = offset + match.length; 
+
         return ''; 
-    }); 
-    
-    return statements; 
+	}); 
+
+	// p == 0 则说明模版中不存在 {{ }} 标记, 直接返回字符串作为 token 即可
+	return p === 0 ?
+		[ str ] :
+		statements; 
 }
 
-export function tokenFold(tokens: Token[]) {
+/**
+ * 折叠闭合 token 
+ * @param tokens 
+ */
+export function tokenFold(tokens: Token[]): Token[] {
 	const res = []; 
 	let deep = 0; 
 
@@ -185,4 +193,3 @@ export function tokenFold(tokens: Token[]) {
 
 	return res; 
 }
-
