@@ -1,7 +1,7 @@
 
 # tplser
 
-[![npm version](https://badge.fury.io/js/tplser)](//npmjs.com/package/tplser)
+[![npm version](https://badge.fury.io/js/tplser.svg)](//npmjs.com/package/tplser)
 
 ``` bash
 # Install 

@@ -1,6 +1,6 @@
 {
   "name": "tplser",
-  "version": "5.0.4",
+  "version": "5.0.5",
   "description": "",
   "main": "dist/tplser.dist.js",
   "types": "dist/typings/core/index.d.ts",
