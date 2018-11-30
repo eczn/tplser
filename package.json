@@ -1,8 +1,8 @@
 {
   "name": "tplser",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/tplser.dist.js",
   "types": "types/core/index.d.ts",
   "scripts": {
     "dist": "rollup --config rollup.config.dist.js",
