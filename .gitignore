@@ -9,4 +9,9 @@ test.html
 
 package-lock.json
 dist/
+dev/
 .DS_Store
+
+.rpt2_cache/ 
+
+typings/ 
